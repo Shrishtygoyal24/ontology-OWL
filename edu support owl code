@@ -1,1 +1,204 @@
+@prefix : <http://www.example.org/edu-support#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
+#################################################################
+#    Classes
+#################################################################
+
+:Student rdf:type owl:Class .
+:Teacher rdf:type owl:Class .
+:Course rdf:type owl:Class .
+:Topic rdf:type owl:Class .
+:Assessment rdf:type owl:Class .
+:LearningMaterial rdf:type owl:Class .
+:Department rdf:type owl:Class .
+:Semester rdf:type owl:Class .
+:Skill rdf:type owl:Class .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+:enrolledIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Student ;
+    rdfs:range :Course .
+
+:teachesCourse rdf:type owl:ObjectProperty ;
+    rdfs:domain :Teacher ;
+    rdfs:range :Course .
+
+:hasTopic rdf:type owl:ObjectProperty ;
+    rdfs:domain :Course ;
+    rdfs:range :Topic .
+
+:hasAssessment rdf:type owl:ObjectProperty ;
+    rdfs:domain :Course ;
+    rdfs:range :Assessment .
+
+:belongsToTopic rdf:type owl:ObjectProperty ;
+    rdfs:domain :LearningMaterial ;
+    rdfs:range :Topic .
+
+:courseOfDepartment rdf:type owl:ObjectProperty ;
+    rdfs:domain :Course ;
+    rdfs:range :Department .
+
+:studentHasSkill rdf:type owl:ObjectProperty ;
+    rdfs:domain :Student ;
+    rdfs:range :Skill .
+
+:includesGrade rdf:type owl:ObjectProperty ;
+    rdfs:domain :Assessment ;
+    rdfs:range :Grade .
+
+:courseSemester rdf:type owl:ObjectProperty ;
+    rdfs:domain :Course ;
+    rdfs:range :Semester .
+
+:recommendsMaterial rdf:type owl:ObjectProperty ;
+    rdfs:domain :Teacher ;
+    rdfs:range :LearningMaterial .
+
+#################################################################
+#    Data Properties
+#################################################################
+
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Student , :Teacher , :Course , :Department ;
+    rdfs:range xsd:string .
+
+:hasID rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Student , :Teacher ;
+    rdfs:range xsd:string .
+
+:assessmentType rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Assessment ;
+    rdfs:range xsd:string .
+
+:hasScore rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Assessment ;
+    rdfs:range xsd:float .
+
+:semesterNumber rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Semester ;
+    rdfs:range xsd:integer .
+
+:skillDescription rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Skill ;
+    rdfs:range xsd:string .
+
+#################################################################
+#    Individuals
+#################################################################
+
+# Students
+:Alice rdf:type :Student ;
+    :hasName "Alice" ;
+    :hasID "S001" ;
+    :enrolledIn :Math101 ;
+    :studentHasSkill :CriticalThinking .
+
+:Bob rdf:type :Student ;
+    :hasName "Bob" ;
+    :hasID "S002" ;
+    :enrolledIn :Biology102 ;
+    :studentHasSkill :LabSkills .
+
+:Carol rdf:type :Student ;
+    :hasName "Carol" ;
+    :hasID "S003" ;
+    :enrolledIn :Programming101 ;
+    :studentHasSkill :ProblemSolving .
+
+# Teachers
+:DrSmith rdf:type :Teacher ;
+    :hasName "Dr. Smith" ;
+    :teachesCourse :Math101 ;
+    :recommendsMaterial :AlgebraBook .
+
+:MissJones rdf:type :Teacher ;
+    :hasName "Miss Jones" ;
+    :teachesCourse :Biology102 ;
+    :recommendsMaterial :BiologyGuide .
+
+:ProfRay rdf:type :Teacher ;
+    :hasName "Prof. Ray" ;
+    :teachesCourse :Programming101 ;
+    :recommendsMaterial :PythonNotes .
+
+# Courses
+:Math101 rdf:type :Course ;
+    :hasName "Mathematics 101" ;
+    :hasTopic :Algebra ;
+    :hasAssessment :MidtermExam ;
+    :courseOfDepartment :DepartmentScience ;
+    :courseSemester :Semester1 .
+
+:Biology102 rdf:type :Course ;
+    :hasName "Biology 102" ;
+    :hasTopic :Genetics ;
+    :hasAssessment :QuizBio ;
+    :courseOfDepartment :DepartmentScience ;
+    :courseSemester :Semester1 .
+
+:Programming101 rdf:type :Course ;
+    :hasName "Programming 101" ;
+    :hasTopic :PythonBasics ;
+    :hasAssessment :Project1 ;
+    :courseOfDepartment :DepartmentIT ;
+    :courseSemester :Semester2 .
+
+# Topics
+:Algebra rdf:type :Topic .
+:Genetics rdf:type :Topic .
+:PythonBasics rdf:type :Topic .
+
+# Assessments
+:MidtermExam rdf:type :Assessment ;
+    :assessmentType "Exam" ;
+    :hasScore 42.5 .
+
+:QuizBio rdf:type :Assessment ;
+    :assessmentType "Quiz" ;
+    :hasScore 35.0 .
+
+:Project1 rdf:type :Assessment ;
+    :assessmentType "Project" ;
+    :hasScore 90.0 .
+
+# Learning Materials
+:AlgebraBook rdf:type :LearningMaterial ;
+    :belongsToTopic :Algebra .
+
+:BiologyGuide rdf:type :LearningMaterial ;
+    :belongsToTopic :Genetics .
+
+:PythonNotes rdf:type :LearningMaterial ;
+    :belongsToTopic :PythonBasics .
+
+# Departments
+:DepartmentScience rdf:type :Department ;
+    :hasName "Science Department" .
+
+:DepartmentIT rdf:type :Department ;
+    :hasName "IT Department" .
+
+# Semester
+:Semester1 rdf:type :Semester ;
+    :semesterNumber 1 .
+
+:Semester2 rdf:type :Semester ;
+    :semesterNumber 2 .
+
+# Skills
+:CriticalThinking rdf:type :Skill ;
+    :skillDescription "Ability to objectively analyze and evaluate issues to form a judgment." .
+
+:LabSkills rdf:type :Skill ;
+    :skillDescription "Practical laboratory techniques and safety practices." .
+
+:ProblemSolving rdf:type :Skill ;
+    :skillDescription "Ability to find solutions to complex problems." .
